@@ -4,7 +4,7 @@ import { cameraState } from '@jscad/regl-renderer/types/cameras/perspectiveCamer
 import { controlsState } from '@jscad/regl-renderer/types/controls/orbitControls'
 import * as renderingDefaults from '@jscad/regl-renderer/types/rendering/renderDefaults'
 import { useAnimationFrame, useKeyPress } from './hooks'
-import { useDrag, usePinch, useWheel } from 'react-use-gesture'
+import { useDrag, usePinch, useWheel } from '@use-gesture/react'
 import { InitializationOptions } from 'regl'
 import { Geom2, Geom3 } from '@jscad/modeling/src/geometries/types'
 
@@ -203,15 +203,15 @@ const Renderer = React.forwardRef<HTMLDivElement, RendererProps>((props, forward
     dispatch({ type: 'SET_INPUTS', payload: { ...state.inputs, mouse: event.down ? 'down' : 'up' } })
     if (state.inputs.mouse === 'down' && (state.inputs.shift === 'down' || event.touches === 3)) dispatch({ type: 'SET_PAN_DELTA', payload: [-event.delta[0], event.delta[1]] })
     if (state.inputs.mouse === 'down' && state.inputs.shift === 'up' && event.touches === 1) dispatch({ type: 'SET_ROTATE_DELTA', payload: [event.delta[0], -event.delta[1]] })
-  }, { domTarget: ref || forwardRef })
+  }, { target: ref || forwardRef })
 
   usePinch((event) => {
     if (event.touches === 2) dispatch({ type: 'SET_ZOOM_DELTA', payload: -event.delta[0] })
-  }, { domTarget: ref || forwardRef })
+  }, { target: ref || forwardRef })
 
   useWheel((event) => {
     dispatch({ type: 'SET_ZOOM_DELTA', payload: event.delta[1] })
-  }, { domTarget: ref || forwardRef })
+  }, { target: ref || forwardRef })
 
   const onShiftDown = React.useCallback(() => {
     dispatch({ type: 'SET_INPUTS', payload: { ...state.inputs, shift: 'down' } })
